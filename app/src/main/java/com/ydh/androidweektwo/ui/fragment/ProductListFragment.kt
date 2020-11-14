@@ -1,14 +1,14 @@
 package com.ydh.androidweektwo.ui.fragment
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ydh.androidweektwo.ProductAdapter
+import com.ydh.androidweektwo.ui.adapter.ProductAdapter
 import com.ydh.androidweektwo.R
 import com.ydh.androidweektwo.databinding.FragmentProductListBinding
 import com.ydh.androidweektwo.model.ProductModel
@@ -29,6 +29,8 @@ class ProductListFragment : Fragment() {
 
         setViewModel()
         setData()
+
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -50,4 +52,14 @@ class ProductListFragment : Fragment() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_product, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController())
+                || super.onOptionsItemSelected(item)
+    }
 }

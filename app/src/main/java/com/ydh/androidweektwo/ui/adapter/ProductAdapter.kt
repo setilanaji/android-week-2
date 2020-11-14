@@ -1,4 +1,4 @@
-package com.ydh.androidweektwo
+package com.ydh.androidweektwo.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ydh.androidweektwo.R
 import com.ydh.androidweektwo.databinding.ItemProductBinding
 import com.ydh.androidweektwo.model.ProductModel
 
