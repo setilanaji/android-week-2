@@ -2,6 +2,7 @@ package com.ydh.androidweektwo.ui.fragment
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
@@ -43,7 +44,12 @@ class ProductListFragment : Fragment() {
             ProductViewModel::class.java)
 
         productViewModel.data.observe(viewLifecycleOwner,{
-            val myAdapter = ProductAdapter(requireContext(), it as MutableList<ProductModel>)
+            val myAdapter = ProductAdapter(requireContext(), it as MutableList<ProductModel>, object : ProductAdapter.PostItemListener{
+                override fun onPostClick(productModel: ProductModel) {
+                    Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
+                }
+
+            })
             binding.rvProductsMain.run {
 
                 layoutManager = LinearLayoutManager(context)

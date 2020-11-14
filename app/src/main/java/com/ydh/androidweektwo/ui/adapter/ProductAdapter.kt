@@ -2,8 +2,10 @@ package com.ydh.androidweektwo.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +17,8 @@ import com.ydh.androidweektwo.model.ProductModel
 
 class ProductAdapter(
     private val context: Context,
-    val items: MutableList<ProductModel>,
+    private val items: MutableList<ProductModel>,
+    private val  itemListener: ProductAdapter.PostItemListener
 ) : RecyclerView.Adapter<ProductAdapter.UserViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
 
@@ -24,7 +27,7 @@ class ProductAdapter(
             inflater,
             R.layout.item_product, parent, false
         )
-        return UserViewHolder(binding)
+        return UserViewHolder(binding, this.itemListener)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -35,7 +38,7 @@ class ProductAdapter(
         return items.size
     }
 
-    private fun getItem(position: Int): ProductModel {
+     private fun getItem(position: Int): ProductModel {
         return items[position]
     }
 
@@ -43,13 +46,15 @@ class ProductAdapter(
         fun onPostClick(productModel: ProductModel)
     }
 
-     class UserViewHolder(
+    class UserViewHolder(
         var itemProductBinding: ItemProductBinding,
-    ) : RecyclerView.ViewHolder(itemProductBinding.root) {
+        var itemListener: ProductAdapter.PostItemListener
+    ) : RecyclerView.ViewHolder(itemProductBinding.root), View.OnClickListener {
         private var binding: ItemProductBinding? = null
 
         init {
             this.binding = itemProductBinding
+            binding?.buttonAdd?.setOnClickListener (this)
         }
 
         companion object {
@@ -62,9 +67,18 @@ class ProductAdapter(
                     .circleCrop()
                     .into(view)
             }
+
+
         }
 
-    }
+         override fun onClick(v: View?) {
+             val product = binding?.product
+             if (product != null) {
+                 this.itemListener.onPostClick(product)
+             }
+         }
+
+     }
 
 
 }
