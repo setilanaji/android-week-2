@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ydh.androidweektwo.App
+import com.ydh.androidweektwo.ProductShared
 import com.ydh.androidweektwo.ui.adapter.ProductAdapter
 import com.ydh.androidweektwo.R
 import com.ydh.androidweektwo.databinding.FragmentProductListBinding
@@ -20,6 +22,9 @@ class ProductListFragment : Fragment() {
 
     private lateinit var productViewModel: ProductViewModel
     private lateinit var binding : FragmentProductListBinding
+    val prefs: ProductShared by lazy {
+        ProductShared(App.instance)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,12 +51,19 @@ class ProductListFragment : Fragment() {
         productViewModel.data.observe(viewLifecycleOwner,{
             val myAdapter = ProductAdapter(requireContext(), it as MutableList<ProductModel>, object : ProductAdapter.PostItemListener{
                 override fun onPostClick(productModel: ProductModel) {
-                    Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
-                }
+                    val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
 
+                    if(checkout.isEmpty() || !prefs.isCheckedOut(productModel.id)){
+                        checkout.add("${productModel.id}")
+                        prefs.checkOutArray = checkout.toTypedArray()
+                        Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
+                    }else{
+                        Toast.makeText(context, "You already added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
+
+                    }
+                }
             })
             binding.rvProductsMain.run {
-
                 layoutManager = LinearLayoutManager(context)
                 adapter = myAdapter
             }

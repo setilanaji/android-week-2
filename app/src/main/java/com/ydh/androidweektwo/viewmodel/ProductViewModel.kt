@@ -18,11 +18,6 @@ class ProductViewModel(private val context: Context): ViewModel() {
     val data : LiveData<List<ProductModel>>
         get() = _data
 
-    private val _response = MutableLiveData<String>()
-    val response : LiveData<String>
-        get() = _response
-
-
     fun setAllUser(){
         ApiClient.apiService.getProducts().enqueue(object :
             retrofit2.Callback<List<ProductModel>> {
@@ -37,9 +32,7 @@ class ProductViewModel(private val context: Context): ViewModel() {
             }
 
         }
-
         )
-
     }
 
 }
