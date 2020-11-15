@@ -34,6 +34,34 @@ Dialog berfungsi untuk menampilkan informasi/pemberitahuan/peringatan dari aplik
 Ikon dalam aplikasi menjadi salah hal kecil yang bisa jadi penting, karena ikon akan memberikan identitas dari aplikasi sebelum pengguna memutuskan untuk membuka aplikasi
 ## RecyclerView
 RecycleView menjadi salah satu jenis View yang populer dikalangan pengguna android. View ini bertugas untnuk menampung dan menampilkan data yang sejenis secara berulang menurut urutan nya.
+
+`ListView` dan `GridViews` hanya melakukan setengah tugas untuk mencapai efisiensi memori yang sebenarnya. Mereka mendaur ulang tata letak item, tetapi tidak menyimpan referensi ke turunan tata letak, memaksa developer memanggil `findViewById()` untuk setiap turunan tata letak item yang dibuat setiap kali memanggil `getView()`.
+
+Semua panggilan ini dapat menjadi intensif prosesor, terutama untuk tata letak yang rumit. Selain itu, situasi ini dapat menyebabkan scroll ListView menjadi tersentak atau tidak responsif saat mencoba mengambil referensi tampilan.
+
+Android awalnya memberikan solusi untuk masalah ini di situs Developer Android dengan smooth srolling melalui View Holder pettern.
+
+Dengan pola ini, kelas menjadi referensi dalam memori ke semua tampilan yang diperlukan untuk mengisi tata letak. Referensi dapat di set satu kali dan di gunakan kembali, mengatasi klik performa yang datang dengan memanggil `findViewById()` berulang kali.
+
+Untuk memberikan tampilan baru, `RecyclerView` membuat objek `ViewHolder` baru untuk me extend layout dan menyimpan referensi tersebut, atau mendaur ulang salah satu dari stack yang ada.
+
+`RecyclerView` datang dengan animasi default yang tidak perlu developer buat atau tambahkan sendiri.
+
+`RecyclerView` memiliki `LayoutManager`. Objek ini memposisikan item `RecyclerView` dan memberi tahu kapan harus mendaur ulang item yang telah dialihkan ke luar layar. `ListView`digunakan untuk melakukan pekerjaan ini sendirian. `RecyclerView` telah memecah fungsi ini untuk memungkinkan berbagai jenis layout: Vertikal, horizontal, kisi (grid), terhuyung-huyung (staggered), atau custom dari develeper sendiri.
+
+Layout manager memiliki 3 pilihan:
+- `LinearLayoutManager` memosisikan items menjadi mirip seperti `ListView` biasa
+- `GridLayoutManager` memosisikan items dalam bentuk kisi sama seperti sebuah `GridView`
+- `StaggeredGridLayoutManager` memosisikan tems dalam bentuk staggered grid.
+
+berikut contoh cara penulisan `RecyclerView` dalam file layout xml
+```xml
+<android.support.v7.widget.RecyclerView
+  android:id="@+id/recyclerView"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:scrollbars="vertical"/>
+```
 ## Shared Prefereces
 Shared Preferences adalah salah satu class yang memiliki fungsi menyimpan data sederhana berupa data yang bertipe primitif (seperti `Float`, `Int`, `Long`, `String` dan `Boolean`) baik dari pengguna maupun sistem secara permanen ke memori lokal pada handphone pengguna. Ia meyimpan data tersebut dalam bentup Map yang memiliki key dan value. Salah satu contoh penggunaan nya adalah untuk menyimpan API key untuk keperluan akses aplikasi.
 
