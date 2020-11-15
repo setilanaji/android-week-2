@@ -198,7 +198,38 @@ Ada 3 method yang biasanya di-implementasi/override yaitu `onCreate()`, `onCreat
 Ada dua cara untuk menggunakan atau meng-embed fragment pada activity: statis dan dinamis. Statis yaitu dengan cara menggunakan tag fragment secara langsung pada file layout Activity. Dinamis yaitu dengan cara menggunakan FragmentManager dan FragmentTransaction dengan menggunakan layout yang ditambahkan pada layout XML activity sebagai wadah atau container untuk menempel atau meng-embed fragment.
 
 ## Style
-Android memiliki
+Style menentukan format dan tampilan UI. STyle dapat diterapkan ke Tampilan individu (dari dalam file layout) atau ke seluruh Aktivitas atau aplikasi (dari dalam file manifes).
+
+Style didefinisikan dalam XML resource yang terpisah dari XML yang menetapkan layout. File XML ini berada di bawah direktori res / values ​​/ project dan akan memiliki <resources> sebagai node root yang wajib untuk file style. Nama file XML bisa berubah-ubah, tetapi harus menggunakan ekstensi .xml.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <style name="CustomFontStyle">
+      <item name="android:layout_width">fill_parent</item>
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:capitalize">characters</item>
+      <item name="android:typeface">monospace</item>
+      <item name="android:textSize">12pt</item>
+      <item name="android:textColor">#00FF00</item>/> 
+   </style>
+</resources>
+```
+Setelah style sudah ditentukan, developer dapat menggunakannya dalam file layout XML menggunakan atribut gaya seperti contoh berikut
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   android:orientation="vertical" >
+
+   <TextView
+      android:id="@+id/text_id"
+      style="@style/CustomFontStyle"
+      android:text="@string/hello_world" />
+
+</LinearLayout>
+```
 ## ViewModel
 Kelas ViewModel dirancang untuk menyimpan dan mengelola data terkait UI dengan tetap memperhaikan siklus hidup. Ini memungkinkan data bertahan dari perubahan konfigurasi seperti rotasi layar.
 
