@@ -41,12 +41,29 @@ Intent digunakan untuk berpindah antar activity pada android, yang pada pengguna
 ## Parcels
 Parcel adalah fungsi yang secara singkat mengatasi kelemahan yang dihasilkan dari metode perpindahan data oleh intent. Yang sebelumnya developer harus menuliskan satu satu data yang memiliki tipe primitive seperti String, Integer, Boolean dll, menjadi hanya satu data saja dalam bentuk object.
 ## Fragment
+Dalam dokumentasi android, Fragment mewakili perilaku atau bagian dari antarmuka pengguna dalam FragmentActivity. Developer bisa mengombinasikan beberapa fragmen dalam satu aktivitas untuk membangun UI multipanel dan menggunakan kembali sebuah fragmen dalam beberapa aktivitas. Developer bisa menganggap fragmen sebagai bagian modular dari aktivitas, yang memiliki daur hidup sendiri, menerima masukan sendiri, dan yang bisa ditambahkan atau dihapus saat aktivitas berjalan (semacam "subaktivitas" yang bisa digunakan kembali dalam aktivitas berbeda)
+
+Beberapa point penting dalam fragment yang perlu diketahui:
+- Fragment dibuat dengan kombinasi file XML Layout dan kelas seperti Activity.
+- Fragment memiliki layout, perilaku, dan life-cyclenya sendiri.
+- Fragment dapat di “add” atau “remove” dalam suatu activity saat activity dalam keadaan running.
+- Fragment berdiri dan bergantung pada suatu activity dan life-cyclenya dipengaruhi oleh lifecycle activity itu sendiri (Ketika activity pause, fragment juga pause. Ketika activity destroyed, semua fragment akan destroyed)
+- Fragment dapat berperilaku seperti activity dalam hal stack. Yaitu dengan penggunaan back stack pada fragment. Fragment baru akan ditambahkan ke stack. Jika kita menekan tombol back, maka akan kembali ke stack fragment yang ditambahkan sebelumnya.
+
+Ada batasan di mana hanya dapat menampilkan satu activity saja pada layar. Batasan tersebut dipenuhi dengan adanya fragment. Dengan fragment developer dapat membuat lebih dari satu tampilan dengan layout, event, dan lifecycle yang di handle oleh setiap fragment yang berbeda pada satu activity
+
+Untuk menambahkan dan menggunakan fragment developer perlu membuat file XML layout dan kelas yang meng-extend kelas Fragment , sama seperti saat membuat dan menggunakan activity.
+Ada 3 method yang biasanya di-implementasi/override yaitu onCreate(), onCreateView(), dan onPause(). (Minimal harus ada onCreateView untuk meng-inflate layout untuk menentukan tampilan dari fragmentnya)
+
+Ada dua cara untuk menggunakan atau meng-embed fragment pada activity: statis dan dinamis. Statis yaitu dengan cara menggunakan tag fragment secara langsung pada file layout Activity. Dinamis yaitu dengan cara menggunakan FragmentManager dan FragmentTransaction dengan menggunakan layout yang ditambahkan pada layout XML activity sebagai wadah atau container untuk menempel atau meng-embed fragment.
+
 ## Style
 Android memiliki
 ## ViewModel
 Kelas ViewModel dirancang untuk menyimpan dan mengelola data terkait UI dengan tetap memperhaikan siklus hidup. Ini memungkinkan data bertahan dari perubahan konfigurasi seperti rotasi layar.
 
 Secara umum, kelas ViewModel dibuat untuk setiap layar dalam aplikasi. Kelas ViewModel ini akan menampung semua data yang terkait dengan layar dan memiliki getter dan setter untuk data yang disimpan. Ini memisahkan kode untuk menampilkan UI, yang diterapkan di Aktivitas dan Fragmen, dari data, yang sekarang ada di ViewModel.
+
 Berikut contoh pen inisialisasian ViewModel
 ```kotlin
 public class ScoreViewModel extends ViewModel {
