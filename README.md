@@ -35,7 +35,26 @@ Ikon dalam aplikasi menjadi salah hal kecil yang bisa jadi penting, karena ikon 
 ## RecyclerView
 RecycleView menjadi salah satu jenis View yang populer dikalangan pengguna android. View ini bertugas untnuk menampung dan menampilkan data yang sejenis secara berulang menurut urutan nya.
 ## Shared Prefereces
-Shared Preferences adalah salah satu class yang memiliki fungsi menyimpan data baik dari pengguna maupun sistem secara permanen ke memori lokal pada handphone pengguna. Ia meyimpan data tersebut dalam bentup Map yang memiliki key dan value. Salah satu contoh penggunaan nya adalah untuk menyimpan API key untuk keperluan akses aplikasi.
+Shared Preferences adalah salah satu class yang memiliki fungsi menyimpan data sederhana berupa data yang bertipe primitif (seperti `Float`, `Int`, `Long`, `String` dan `Boolean`) baik dari pengguna maupun sistem secara permanen ke memori lokal pada handphone pengguna. Ia meyimpan data tersebut dalam bentup Map yang memiliki key dan value. Salah satu contoh penggunaan nya adalah untuk menyimpan API key untuk keperluan akses aplikasi.
+
+Beberapa metode penting untuk SharedPreferences:
+- `getSharedPreferences (String, int)` metode digunakan untuk mengambil sebuah instance dari `SharedPreferences`. Di sini `String` adalah nama file `SharedPreferences` dan `int` adalah Konteks yang diteruskan.
+- `SharedPreferences.Editor ()` digunakan untuk mengedit nilai di `SharedPreferences`.
+- Kita dapat memanggil `commit()` atau `apply()` untuk menyimpan nilai dalam file `SharedPreferences`. `commit()` menyimpan nilai dengan segera sedangkan `apply()` menyimpan nilai secara asinkron.
+
+cara me set values pada instansi SharePreferences:
+```kotlin
+val sharedPreference =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+var editor = sharedPreference.edit()
+editor.putString("username","Koko")
+editor.putLong("l",100L)
+editor.commit()
+```
+untuk mengambil values:
+```kotlin
+sharedPreference.getString("username","defaultName")
+sharedPreference.getLong("l",1L)
+```
 ## Intent
 Intent digunakan untuk berpindah antar activity pada android, yang pada pengguna berarti berpindah antar layar/menu. Dalam perpindahan ini intent bisa membawa informasi/data dari aktivity sebelumnya.
 ## Parcels
