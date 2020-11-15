@@ -37,11 +37,12 @@ class ProductListFragment : Fragment() {
         setData()
 
         setHasOptionsMenu(true)
+
         return binding.root
     }
 
     private fun setData(){
-        productViewModel.setAllUser()
+        productViewModel.setAllProducts()
     }
 
     private fun setViewModel(){
@@ -56,11 +57,12 @@ class ProductListFragment : Fragment() {
                     if(checkout.isEmpty() || !prefs.isCheckedOut(productModel.id)){
                         checkout.add("${productModel.id}")
                         prefs.checkOutArray = checkout.toTypedArray()
-                        Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
-                    }else{
-                        Toast.makeText(context, "You already added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
-
+//                        Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
                     }
+//                    else{
+//                        Toast.makeText(context, "You already added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
+
+//                    }
                 }
             })
             binding.rvProductsMain.run {
@@ -80,4 +82,6 @@ class ProductListFragment : Fragment() {
             requireView().findNavController())
                 || super.onOptionsItemSelected(item)
     }
+
+
 }

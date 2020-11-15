@@ -68,4 +68,6 @@ dependencies {
 
     // paging
     implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    implementation "me.leolin:ShortcutBadger:1.1.22@aar"
 }

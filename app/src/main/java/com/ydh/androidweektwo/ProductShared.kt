@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.google.gson.Gson
+import com.ydh.androidweektwo.model.ProductModel
 
 class ProductShared(private val context: Context){
     companion object{

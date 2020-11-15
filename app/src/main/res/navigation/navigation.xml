@@ -8,15 +8,15 @@
     <fragment
         android:id="@+id/productListFragment"
         android:name="com.ydh.androidweektwo.ui.fragment.ProductListFragment"
-        android:label="fragment_product_list"
+        android:label="Products"
         tools:layout="@layout/fragment_product_list" />
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.ydh.androidweektwo.ui.fragment.FavoriteFragment"
-        android:label="fragment_favorite"
+        android:label="Favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
         android:id="@+id/cartFragment"
         android:name="com.ydh.androidweektwo.ui.fragment.CartFragment"
-        android:label="CartFragment" />
+        android:label="Cart" />
 </navigation>
