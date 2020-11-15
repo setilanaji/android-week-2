@@ -40,6 +40,99 @@ Shared Preferences adalah salah satu class yang memiliki fungsi menyimpan data b
 Intent digunakan untuk berpindah antar activity pada android, yang pada pengguna berarti berpindah antar layar/menu. Dalam perpindahan ini intent bisa membawa informasi/data dari aktivity sebelumnya.
 ## Parcels
 Parcel adalah fungsi yang secara singkat mengatasi kelemahan yang dihasilkan dari metode perpindahan data oleh intent. Yang sebelumnya developer harus menuliskan satu satu data yang memiliki tipe primitive seperti String, Integer, Boolean dll, menjadi hanya satu data saja dalam bentuk object.
+
+Pada dasarnya Parcelable adalah komponen Android SDK, Antarmuka yang mirip dengan JAVA Serializable. Ini adalah cara yang disarankan Android untuk meneruskan struktur data khusus yang dibuat di antara berbagai komponen dalam aplikasi, karena Parcelable diproses relatif cepat dibandingkan dengan serialisasi JAVA standar, karena developer harus menjelaskan tentang proses serialisasi secara eksplisit daripada menggunakan refleksi untuk menyimpulkannya.
+
+Menjadikan kelas menjadi Parcelable cukup mentulitkan, tidak peduli Kotlin atau JAVA bahasa apa pun yang digunakan. Jadi, para developer mulai membuat plugin dan libraty Android Studio yang berbeda untuk membuat hidup developer lebih mudah.
+
+Ada 3 cara untuk membuat kelas menjadi Parcelable:
+- Menerapkan antarmuka Parcelable dan menentukan sendiri serialisasi (Cara tradisional)
+- Menggunakan plugin Android Studio, seperti generator kode Android Parcelable
+- Menggunakan library berbasis anotasi, seperti Parceler
+
+contoh sebuah Data class Item seperti berikut:
+```kotlin
+data class Item(
+    val title: String,
+    val details: String,
+    val price: Double,
+    val category: String
+)
+```
+Parcelable: cara tradisional
+```kotlin
+class Item(
+    val title: String,
+    val details: String,
+    val price: Double,
+    val category: String) : Parcelable {
+
+    companion object {
+        @JvmField
+        val CREATOR = object : Parcelable.Creator<Item> {
+        override fun createFromParcel(parcel: Parcel) = Item(parcel)
+        override fun newArray(size: Int) = arrayOfNulls<Item>(size)
+        }
+    }
+
+    private constructor(parcel: Parcel) : this(
+        title = parcel.readString(),
+        details = parcel.readString(),
+        price = parcel.readDouble(),
+        category = parcel.readString()
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(title)
+        parcel.writeString(details)
+        parcel.writeDouble(price)
+        parcel.writeString(category)
+    }
+
+    override fun describeContents() = 0
+}
+```
+Parcelable: menggunakan anotasi
+```kotlin
+@Parcelize
+data class Item(
+    var imageId: Int,
+    var title: String,
+    var price: Double,
+    var category: String
+) : Parcelable
+```
+cara mengirimkan data:
+```kotlin
+val intent = Intent(this, AnotherActivity::class.java)
+intent.putExtra("extra_item", item)
+```
+cara menerima data:
+```kotlin
+val item = intent.getParcelableExtra("extra_item")
+```
+Yang perlu dilakukan adalah:
+- menggunakan versi terakhir Kotlin
+- menggunakan @Parcelize di atas Data Class/Model
+- menggunakan versi terakhir Kotlin Android Extension pada modul App seperti berikut:
+```text
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    ... ... ...
+    
+    // Add for using latest experimental build of Android Extensions
+    androidExtensions {
+        experimental = true
+    }
+}
+
+dependencies {
+    ... ... ...
+}
+```
 ## Fragment
 Dalam dokumentasi android, Fragment mewakili perilaku atau bagian dari antarmuka pengguna dalam FragmentActivity. Developer bisa mengombinasikan beberapa fragmen dalam satu aktivitas untuk membangun UI multipanel dan menggunakan kembali sebuah fragmen dalam beberapa aktivitas. Developer bisa menganggap fragmen sebagai bagian modular dari aktivitas, yang memiliki daur hidup sendiri, menerima masukan sendiri, dan yang bisa ditambahkan atau dihapus saat aktivitas berjalan (semacam "subaktivitas" yang bisa digunakan kembali dalam aktivitas berbeda)
 
@@ -53,7 +146,7 @@ Beberapa point penting dalam fragment yang perlu diketahui:
 Ada batasan di mana hanya dapat menampilkan satu activity saja pada layar. Batasan tersebut dipenuhi dengan adanya fragment. Dengan fragment developer dapat membuat lebih dari satu tampilan dengan layout, event, dan lifecycle yang di handle oleh setiap fragment yang berbeda pada satu activity
 
 Untuk menambahkan dan menggunakan fragment developer perlu membuat file XML layout dan kelas yang meng-extend kelas Fragment , sama seperti saat membuat dan menggunakan activity.
-Ada 3 method yang biasanya di-implementasi/override yaitu onCreate(), onCreateView(), dan onPause(). (Minimal harus ada onCreateView untuk meng-inflate layout untuk menentukan tampilan dari fragmentnya)
+Ada 3 method yang biasanya di-implementasi/override yaitu `onCreate()`, `onCreateView()`, dan `onPause()`. (Minimal harus ada onCreateView untuk meng-inflate layout untuk menentukan tampilan dari fragmentnya)
 
 Ada dua cara untuk menggunakan atau meng-embed fragment pada activity: statis dan dinamis. Statis yaitu dengan cara menggunakan tag fragment secara langsung pada file layout Activity. Dinamis yaitu dengan cara menggunakan FragmentManager dan FragmentTransaction dengan menggunakan layout yang ditambahkan pada layout XML activity sebagai wadah atau container untuk menempel atau meng-embed fragment.
 
@@ -66,12 +159,12 @@ Secara umum, kelas ViewModel dibuat untuk setiap layar dalam aplikasi. Kelas Vie
 
 Berikut contoh pen inisialisasian ViewModel
 ```kotlin
-public class ScoreViewModel extends ViewModel {
+class ScoreViewModel: ViewModel() {
    // Tracks the score for Team A
-   public int scoreTeamA = 0;
+   var scoreTeamA = 0;
 
    // Tracks the score for Team B
-   public int scoreTeamB = 0;
+   var scoreTeamB = 0;
 }
 ```
 Pengontrol UI (alias Activity atau Fragment) perlu tahu tentang ViewModel yang dibuat. Ini agar pengontrol UI dapat menampilkan data dan mengupdate data saat terjadi interaksi pada UI, seperti menekan sebuah tombol untuk menambah angka.
@@ -80,7 +173,7 @@ Namun, ViewModels tidak boleh memiliki referensi ke Aktivitas, Fragmen, atau Kon
 
 Alasan tidak boleh menyimpan objek ini adalah karena ViewModels hidup lebih lama dari instance pengontrol UI - jika sebuah Aktivitas dirotasi tiga kali, tiga instance Activity yang berbeda akan terbuat, tetapi hanya memiliki satu ViewModel.
 
-Berikut cara membuat variabel dari ViewModel pada UI controller. Di panggil pada OnCreate :
+Berikut cara membuat variabel dari ViewModel pada UI controller. Di panggil pada `OnCreate` :
 ```kotlin
 ViewModelProviders.of(<UI controller>).get(<Nama ViewModel>.class)
 ```
