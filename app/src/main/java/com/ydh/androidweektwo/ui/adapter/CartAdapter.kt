@@ -54,7 +54,7 @@ class CartAdapter(
 
         init {
             this.binding = itemCartBinding
-            binding?.ivItemCartImage?.setOnClickListener(this)
+            binding?.ivCartItemDelete?.setOnClickListener(this)
         }
 
         companion object {

@@ -38,4 +38,10 @@ class ProductShared(private val context: Context){
         return saved
     }
 
+    fun deleteItem(id: Int){
+        val checkout: MutableList<String> = this.checkOutArray.toMutableList()
+        checkout.remove("$id")
+        checkOutArray = checkout.toTypedArray()
+    }
+
 }

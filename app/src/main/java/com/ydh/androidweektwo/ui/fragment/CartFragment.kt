@@ -52,17 +52,8 @@ class CartFragment : Fragment() {
         cartViewModel.data.observe(viewLifecycleOwner,{
             val myAdapter = CartAdapter(requireContext(), it as MutableList<ProductModel>, object : CartAdapter.PostItemListener{
                 override fun onPostClick(productModel: ProductModel) {
-//                    val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
-//
-//                    if(checkout.isEmpty() || !prefs.isCheckedOut(productModel.id)){
-//                        checkout.add("${productModel.id}")
-//                        prefs.checkOutArray = checkout.toTypedArray()
-//                        Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
-//                    }
-//                    else{
-//                        Toast.makeText(context, "You already added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
-
-//                    }
+                    prefs.deleteItem(productModel.id)
+                    setData()
                 }
             })
             binding.rvProductCart.run {
