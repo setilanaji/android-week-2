@@ -16,10 +16,9 @@ Bertujuan untuk mengurangi ketergantungan kelas kepada interface kelas yang dibu
 
 ## Menu
 Menu dalam android bukanlah hal baru, berisi item/pilihan untuuk mendeskripsikan sebuah tindakan. Menu dibagi menjadi tiga tipe dasar, yaitu option menu, pop up menu, dan dan konteks menu.
-
-    ```XML
-    <?xml version="1.0" encoding="utf-8"?>
-    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/new_game"
           android:icon="@drawable/ic_new_game"
           android:title="@string/new_game"
@@ -27,8 +26,8 @@ Menu dalam android bukanlah hal baru, berisi item/pilihan untuuk mendeskripsikan
     <item android:id="@+id/help"
           android:icon="@drawable/ic_help"
           android:title="@string/help" />
-    </menu>
-    ```
+</menu>
+ ```
 ## Dialog
 Dialog berfungsi untuk menampilkan informasi/pemberitahuan/peringatan dari aplikasi kepada pengguna.
 ## App Icon
