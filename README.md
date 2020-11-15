@@ -15,7 +15,20 @@ Bertujuan untuk mengurangi ketergantungan kelas kepada interface kelas yang dibu
 ### D- Dependency Inversion Principle
 
 ## Menu
-Menu dalam android bukanlah hal baru,
+Menu dalam android bukanlah hal baru, berisi item/pilihan untuuk mendeskripsikan sebuah tindakan. Menu dibagi menjadi tiga tipe dasar, yaitu option menu, pop up menu, dan dan konteks menu.
+
+    ```XML
+    <?xml version="1.0" encoding="utf-8"?>
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/new_game"
+          android:icon="@drawable/ic_new_game"
+          android:title="@string/new_game"
+          android:showAsAction="ifRoom"/>
+    <item android:id="@+id/help"
+          android:icon="@drawable/ic_help"
+          android:title="@string/help" />
+    </menu>
+    ```
 ## Dialog
 Dialog berfungsi untuk menampilkan informasi/pemberitahuan/peringatan dari aplikasi kepada pengguna.
 ## App Icon
@@ -31,4 +44,29 @@ Parcel adalah fungsi yang secara singkat mengatasi kelemahan yang dihasilkan dar
 ## Fragment
 ## Style
 Android memiliki
+## ViewModel
+Kelas ViewModel dirancang untuk menyimpan dan mengelola data terkait UI dengan tetap memperhaikan siklus hidup. Ini memungkinkan data bertahan dari perubahan konfigurasi seperti rotasi layar.
 
+Secara umum, kelas ViewModel dibuat untuk setiap layar dalam aplikasi. Kelas ViewModel ini akan menampung semua data yang terkait dengan layar dan memiliki getter dan setter untuk data yang disimpan. Ini memisahkan kode untuk menampilkan UI, yang diterapkan di Aktivitas dan Fragmen, dari data, yang sekarang ada di ViewModel.
+Berikut contoh pen inisialisasian ViewModel
+```kotlin
+public class ScoreViewModel extends ViewModel {
+   // Tracks the score for Team A
+   public int scoreTeamA = 0;
+
+   // Tracks the score for Team B
+   public int scoreTeamB = 0;
+}
+```
+Pengontrol UI (alias Activity atau Fragment) perlu tahu tentang ViewModel yang dibuat. Ini agar pengontrol UI dapat menampilkan data dan mengupdate data saat terjadi interaksi pada UI, seperti menekan sebuah tombol untuk menambah angka.
+
+Namun, ViewModels tidak boleh memiliki referensi ke Aktivitas, Fragmen, atau Konteks. Selain itu, ViewModels tidak boleh berisi elemen yang berisi referensi ke pengontrol UI, seperti Views, karena ini akan membuat referensi tidak langsung ke Konteks.
+
+Alasan tidak boleh menyimpan objek ini adalah karena ViewModels hidup lebih lama dari instance pengontrol UI - jika sebuah Aktivitas dirotasi tiga kali, tiga instance Activity yang berbeda akan terbuat, tetapi hanya memiliki satu ViewModel.
+
+Berikut cara membuat variabel dari ViewModel pada UI controller. Di panggil pada OnCreate :
+```kotlin
+ViewModelProviders.of(<UI controller>).get(<Nama ViewModel>.class)
+```
+
+Ada satu pengecualian untuk aturan "tidak ada konteks di ViewModels". Terkadang dalam suatu kasus mungkin memerlukan konteks Aplikasi (sebagai lawan dari konteks Aktivitas) untuk digunakan dengan hal-hal seperti layanan sistem. Menyimpan konteks Aplikasi dalam ViewModel tidak apa-apa karena konteks Aplikasi terkait dengan siklus hidup Aplikasi. Ini berbeda dari konteks Aktivitas, yang terkait dengan siklus hidup Aktivitas. Faktanya, jika memang membutuhkan konteks Aplikasi, Maka harus menggunakan AndroidViewModel yang merupakan ViewModel yang menyertakan referensi Aplikasi.
