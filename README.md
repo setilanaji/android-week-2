@@ -13,6 +13,9 @@ SubClass wajib untuk menerapkan fungsi dan properti dari SuperClass,dan perilaku
 ### I- Interface Segretation Principle
 Bertujuan untuk mengurangi ketergantungan kelas kepada interface kelas yang dibutuhkan. Ketergantungan ini bisa terjadi apabila kelas terpaksa mengimplementasikan fungsi-fungsi yang tidak dibutuhkan dari interface. Menurut prinsip ini, kelas interface disarankan untuk membiliki fungsi yang lebih sedikit sesuai tujuan/fungsi utama nya.
 ### D- Dependency Inversion Principle
+"High-level modules should not depend on low-level modules. Both should depend on abstractions."
+"Abstractions should not depend on details. Details should depend on abstractions."
+Dengan menerapkan Dependency Inversion, modul dapat dengan mudah diubah oleh modul lain hanya dengan mengubah modul dependensi dan modul Tingkat Tinggi tidak akan terpengaruh oleh perubahan apa pun pada modul Tingkat Rendah.
 
 ## Menu
 Menu dalam android bukanlah hal baru, berisi item/pilihan untuuk mendeskripsikan sebuah tindakan. Menu dibagi menjadi tiga tipe dasar, yaitu option menu, pop up menu, dan dan konteks menu.
