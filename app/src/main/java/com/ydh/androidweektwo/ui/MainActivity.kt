@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
@@ -20,14 +22,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
-    private val appBarConfiguration by lazy {
-        AppBarConfiguration(
-            setOf(
-                R.id.favoriteFragment,
-                R.id.productListFragment
-            ), drawerLayout
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,29 +34,37 @@ class MainActivity : AppCompatActivity() {
 
 //        NavigationUI.setupWithNavController(toolbar, navigationController, appBarConfiguration)
 
-        binding.navView.setNavigationItemSelectedListener { menuItem ->
-            menuItem.isChecked = true
-            binding.drawerLayout.closeDrawers()
-
-            when (menuItem.itemId) {
-
-                R.id.nav_profile -> {
-                    Toast.makeText(this, "Profile", Toast.LENGTH_LONG).show()
-                }
-                R.id.productListFragment -> {
-                    Toast.makeText(this, "Favorite", Toast.LENGTH_LONG).show()
-
-//                    NavigationUI.onNavDestinationSelected()
-                }
-                R.id.favoriteFragment -> {
-                    Toast.makeText(this, "Product", Toast.LENGTH_LONG).show()
-                }
+//        binding.navView.setNavigationItemSelectedListener { menuItem ->
+//            menuItem.isChecked = true
+//            binding.drawerLayout.closeDrawers()
+//
+//            when (menuItem.itemId) {
+//
+//                R.id.nav_profile -> {
+//                    Toast.makeText(this, "Profile", Toast.LENGTH_LONG).show()
+//                }
+//                R.id.productListFragment -> {
+//                    Toast.makeText(this, "Favorite", Toast.LENGTH_LONG).show()
+//
+////                    NavigationUI.onNavDestinationSelected()
+//                }
+//                R.id.favoriteFragment -> {
+//                    Toast.makeText(this, "Product", Toast.LENGTH_LONG).show()
+//                }
+//            }
+//
+//            true
+//        }
+        navigationController.addOnDestinationChangedListener { nc: NavController, nd: NavDestination, bundle: Bundle? ->
+            if (nd.id == nc.graph.startDestination) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
-
-            true
         }
+        NavigationUI.setupWithNavController(binding.navView, navigationController)
 
-        binding.navView.bringToFront()
+//        binding.navView.bringToFront()
 
 //        setContentView(R.layout.activity_main)
     }
