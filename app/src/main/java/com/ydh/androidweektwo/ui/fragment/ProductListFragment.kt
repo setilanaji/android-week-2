@@ -57,12 +57,12 @@ class ProductListFragment : Fragment() {
                     if(checkout.isEmpty() || !prefs.isCheckedOut(productModel.id)){
                         checkout.add("${productModel.id}")
                         prefs.checkOutArray = checkout.toTypedArray()
-//                        Toast.makeText(context, "Added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, "${productModel.title} is added to cart", Toast.LENGTH_LONG).show()
                     }
-//                    else{
-//                        Toast.makeText(context, "You already added + ${productModel.id} to cart", Toast.LENGTH_LONG).show()
+                    else{
+                        Toast.makeText(context, "You already added this item to cart", Toast.LENGTH_LONG).show()
 
-//                    }
+                    }
                 }
             })
             binding.rvProductsMain.run {

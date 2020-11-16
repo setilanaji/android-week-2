@@ -25,9 +25,7 @@ class CartFragment : Fragment() {
 
     private lateinit var cartViewModel: CartViewModel
     private lateinit var binding : FragmentCartBinding
-    private val prefs: ProductShared by lazy {
-        ProductShared(App.instance)
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,22 +39,22 @@ class CartFragment : Fragment() {
     }
 
     private fun setData(){
-        val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
-        cartViewModel.setAllCartItem(checkout)
+//        val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
+        cartViewModel.setAllCartItem()
     }
 
     private fun setViewModel(){
         cartViewModel = ViewModelProviders.of(this, CartViewModelFactory(this.context)).get(
             CartViewModel::class.java)
 
-        cartViewModel.data.observe(viewLifecycleOwner,{
+        cartViewModel.data.observe(viewLifecycleOwner,{ it ->
             val myAdapter = CartAdapter(requireContext(), it as MutableList<ProductModel>, object : CartAdapter.PostItemListener{
                 override fun onPostClick(productModel: ProductModel) {
-                    prefs.deleteItem(productModel.id)
-                    val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
-checkout.forEach { println(it.toString()) }
-                    setData()
-
+//                    prefs.deleteItem(productModel.id)
+                    cartViewModel.deleteCartItem(productModel)
+//                    val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
+//                    checkout.forEach { x->  println(x.toString()) }
+//
                 }
             })
             binding.rvProductCart.run {
