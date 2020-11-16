@@ -34,7 +34,7 @@ class CartAdapter(
     }
 
     override fun getItemCount(): Int {
-        println(items.size)
+//        println(items.size)
         return items.size
     }
 
@@ -75,6 +75,7 @@ class CartAdapter(
             val product = binding?.product
             if (product != null) {
                 this.itemListener.onPostClick(product)
+
             }
         }
 

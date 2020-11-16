@@ -53,11 +53,15 @@ class CartFragment : Fragment() {
             val myAdapter = CartAdapter(requireContext(), it as MutableList<ProductModel>, object : CartAdapter.PostItemListener{
                 override fun onPostClick(productModel: ProductModel) {
                     prefs.deleteItem(productModel.id)
+                    val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
+checkout.forEach { println(it.toString()) }
                     setData()
+
                 }
             })
             binding.rvProductCart.run {
                 layoutManager = LinearLayoutManager(context)
+//                myAdapter.notifyDataSetChanged()
                 adapter = myAdapter
             }
         })

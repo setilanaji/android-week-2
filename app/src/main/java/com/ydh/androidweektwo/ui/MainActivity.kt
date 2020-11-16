@@ -2,17 +2,32 @@ package com.ydh.androidweektwo.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.ydh.androidweektwo.R
 import com.ydh.androidweektwo.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout: DrawerLayout
+    private val appBarConfiguration by lazy {
+        AppBarConfiguration(
+            setOf(
+                R.id.favoriteFragment,
+                R.id.productListFragment
+            ), drawerLayout
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +35,10 @@ class MainActivity : AppCompatActivity() {
             R.layout.activity_main
         )
         val navigationController = this.findNavController(R.id.myNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, navigationController)
+        drawerLayout = binding.drawerLayout
+        NavigationUI.setupActionBarWithNavController(this, navigationController, drawerLayout)
+
+//        NavigationUI.setupWithNavController(toolbar, navigationController, appBarConfiguration)
 
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             menuItem.isChecked = true
@@ -31,10 +49,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_profile -> {
                     Toast.makeText(this, "Profile", Toast.LENGTH_LONG).show()
                 }
-                R.id.nav_favorite -> {
+                R.id.productListFragment -> {
                     Toast.makeText(this, "Favorite", Toast.LENGTH_LONG).show()
+
+//                    NavigationUI.onNavDestinationSelected()
                 }
-                R.id.nav_product -> {
+                R.id.favoriteFragment -> {
                     Toast.makeText(this, "Product", Toast.LENGTH_LONG).show()
                 }
             }
@@ -42,10 +62,24 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        binding.navView.bringToFront()
+
 //        setContentView(R.layout.activity_main)
     }
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.myNavHostFragment)
-        return navController.navigateUp()
+        return NavigationUI.navigateUp(navController, drawerLayout) || super.onSupportNavigateUp()
     }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//        inflater.inflate(R.menu.drawer_menu, menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return NavigationUI.onNavDestinationSelected(item,
+//            requireView().findNavController())
+//                || super.onOptionsItemSelected(item)
+//    }
+
+
 }
