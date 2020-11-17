@@ -64,6 +64,11 @@ class ProductListFragment : Fragment() {
 
                     }
                 }
+
+                override fun onFavClick(productModel: ProductModel, checked: Boolean) {
+                    productViewModel.setFav(productModel, checked)
+
+                }
             })
             binding.rvProductsMain.run {
                 layoutManager = LinearLayoutManager(context)

@@ -38,10 +38,28 @@ class ProductShared(private val context: Context){
         return saved
     }
 
+    fun isFav(id: Int): Boolean{
+        val fav: MutableList<String> = this.favoriteArray.toMutableList()
+        var saved = false
+        fav.forEach { c ->
+            if (c == "$id"){
+                saved = true
+            }
+        }
+        return saved
+    }
+
     fun deleteItem(id: Int){
         val checkout: MutableList<String> = this.checkOutArray.toMutableList()
         checkout.remove("$id")
         checkOutArray = checkout.toTypedArray()
     }
+
+    fun deleteFav(id: Int){
+        val fav: MutableList<String> = this.favoriteArray.toMutableList()
+        fav.remove("$id")
+        favoriteArray = fav.toTypedArray()
+    }
+
 
 }

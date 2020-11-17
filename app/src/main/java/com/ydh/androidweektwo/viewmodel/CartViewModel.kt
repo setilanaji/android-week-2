@@ -12,7 +12,7 @@ import com.ydh.androidweektwo.model.ProductModel
 import retrofit2.Call
 import retrofit2.Response
 
-class CartViewModel(context: Context?): ViewModel(){
+class CartViewModel(context: Context?) : ViewModel() {
 
     val mutableList = arrayListOf<ProductModel>()
 
@@ -23,16 +23,18 @@ class CartViewModel(context: Context?): ViewModel(){
         MutableLiveData<List<ProductModel>>()
     }
 
-    val data : LiveData<List<ProductModel>>
+    val data: LiveData<List<ProductModel>>
         get() = _data
 
-    fun setAllCartItem(){
+    fun setAllCartItem() {
         val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
         checkout.forEach {
-            println("test")
             ApiClient.apiService.getProduct(it.toInt()).enqueue(object :
                 retrofit2.Callback<ProductModel> {
-                override fun onResponse(call: Call<ProductModel>, response: Response<ProductModel>) {
+                override fun onResponse(
+                    call: Call<ProductModel>,
+                    response: Response<ProductModel>
+                ) {
                     val productResponse = response.body()
                     mutableList.add(productResponse!!)
                     _data.value = mutableList
@@ -49,7 +51,7 @@ class CartViewModel(context: Context?): ViewModel(){
 
     }
 
-    fun deleteCartItem(item: ProductModel){
+    fun deleteCartItem(item: ProductModel) {
         prefs.deleteItem(item.id)
         mutableList.remove(item)
         _data.value = mutableList

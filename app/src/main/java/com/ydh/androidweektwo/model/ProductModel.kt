@@ -17,5 +17,7 @@ data class ProductModel (
     @SerializedName("category")
     val category: String,
     @SerializedName("image")
-    val imageUrl: String
+    val imageUrl: String,
+
+    var fav: Boolean
 ): Parcelable

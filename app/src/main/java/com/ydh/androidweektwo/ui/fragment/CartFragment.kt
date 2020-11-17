@@ -26,7 +26,6 @@ class CartFragment : Fragment() {
     private lateinit var cartViewModel: CartViewModel
     private lateinit var binding : FragmentCartBinding
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +38,6 @@ class CartFragment : Fragment() {
     }
 
     private fun setData(){
-//        val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
         cartViewModel.setAllCartItem()
     }
 
@@ -50,16 +48,11 @@ class CartFragment : Fragment() {
         cartViewModel.data.observe(viewLifecycleOwner,{ it ->
             val myAdapter = CartAdapter(requireContext(), it as MutableList<ProductModel>, object : CartAdapter.PostItemListener{
                 override fun onPostClick(productModel: ProductModel) {
-//                    prefs.deleteItem(productModel.id)
                     cartViewModel.deleteCartItem(productModel)
-//                    val checkout: MutableList<String> = prefs.checkOutArray.toMutableList()
-//                    checkout.forEach { x->  println(x.toString()) }
-//
                 }
             })
             binding.rvProductCart.run {
                 layoutManager = LinearLayoutManager(context)
-//                myAdapter.notifyDataSetChanged()
                 adapter = myAdapter
             }
         })
