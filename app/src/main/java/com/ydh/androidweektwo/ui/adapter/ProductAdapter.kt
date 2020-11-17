@@ -64,10 +64,6 @@ class ProductAdapter(
             this.binding = itemProductBinding
             binding?.buttonAdd?.setOnClickListener (this)
 
-            val checkbox = prefs.isFav(binding?.product?.id)
-            println(" test $checkbox")
-            binding?.product?.fav = checkbox
-            binding?.itemProductItemFav?.isChecked = checkbox
             binding?.itemProductItemFav?.setOnClickListener {
                 val product = binding?.product
                 var checked = false

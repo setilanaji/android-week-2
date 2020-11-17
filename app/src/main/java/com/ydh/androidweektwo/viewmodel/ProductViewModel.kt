@@ -30,9 +30,12 @@ class ProductViewModel(private val context: Context): ViewModel() {
             retrofit2.Callback<List<ProductModel>> {
             override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {
                 val productResponse = response.body()
-                _data.postValue(productResponse)
 
-//                Log.d("TAG", "Response = $_data");
+                productResponse?.forEach {
+                    it.fav = prefs.isFav(it.id)
+                }
+
+                _data.postValue(productResponse)
             }
 
             override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
