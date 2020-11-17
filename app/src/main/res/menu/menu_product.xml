@@ -4,6 +4,7 @@
 
     <item android:title="checkout"
         android:id="@+id/cartFragment"
+        app:actionLayout="@layout/badge_text"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
         app:showAsAction="always"/>
 </menu>
