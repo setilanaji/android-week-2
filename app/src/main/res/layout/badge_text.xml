@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="48dp"
+    android:layout_height="48dp">
+<FrameLayout
+
     android:layout_width="32dp"
     android:layout_height="32dp"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="?attr/selectableItemBackgroundBorderless">
 
     <ImageView
         android:layout_width="24dp"
@@ -32,4 +38,5 @@
 
     </FrameLayout>
 
+</FrameLayout>
 </FrameLayout>

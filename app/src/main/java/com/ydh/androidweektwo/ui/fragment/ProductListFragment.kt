@@ -1,16 +1,20 @@
 package com.ydh.androidweektwo.ui.fragment
 
+import android.app.Dialog
+import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.FrameLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.ydh.androidweektwo.App
 import com.ydh.androidweektwo.ProductShared
 import com.ydh.androidweektwo.R
@@ -19,6 +23,7 @@ import com.ydh.androidweektwo.model.ProductModel
 import com.ydh.androidweektwo.ui.adapter.ProductAdapter
 import com.ydh.androidweektwo.viewmodel.ProductViewModel
 import com.ydh.androidweektwo.viewmodel.ProductViewModelFactory
+
 
 class ProductListFragment : Fragment() {
 
@@ -92,6 +97,15 @@ class ProductListFragment : Fragment() {
                         productViewModel.setFav(productModel, checked)
 
                     }
+
+                    override fun onImgClick(uri: String) {
+                        Toast.makeText(
+                            context,
+                            "Tapped",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        imgOnClick(uri)
+                    }
                 })
             binding.rvProductsMain.run {
                 layoutManager = LinearLayoutManager(context)
@@ -135,6 +149,30 @@ class ProductListFragment : Fragment() {
             countText.text = ""
         }
         redCircle.visibility = if (cartCount> 0) View.VISIBLE else View.GONE
+    }
+
+    fun imgOnClick(uri:String){
+        val builder = Dialog(requireContext())
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        builder.window?.setBackgroundDrawable(
+            ColorDrawable(Color.TRANSPARENT)
+        )
+        builder.setOnCancelListener {
+            it.dismiss()
+        }
+        val imageView = ImageView(requireContext())
+        Glide.with(requireContext())
+            .load(uri)
+            .into(imageView)
+
+        builder.addContentView(
+            imageView, RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        builder.show()
+
     }
 
 

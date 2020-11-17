@@ -50,6 +50,7 @@ class ProductAdapter(
     interface PostItemListener {
         fun onPostClick(productModel: ProductModel)
         fun onFavClick(productModel: ProductModel, checked: Boolean)
+        fun onImgClick(uri: String)
     }
 
     class ViewHolder(
@@ -57,9 +58,7 @@ class ProductAdapter(
         var itemListener: ProductAdapter.PostItemListener
     ) : RecyclerView.ViewHolder(itemProductBinding.root), View.OnClickListener {
         private var binding: ItemProductBinding? = null
-        private val prefs: ProductShared by lazy {
-            ProductShared(App.instance)
-        }
+
         init {
             this.binding = itemProductBinding
             binding?.buttonAdd?.setOnClickListener (this)
@@ -73,6 +72,11 @@ class ProductAdapter(
                 if (product != null) {
                     this.itemListener.onFavClick(product, checked)
                 }
+            }
+//            binding?.ivItemProductImage?.performClick()
+            binding?.ivItemProductImage?.setOnClickListener {
+                val product = binding?.product
+                this.itemListener.onImgClick(product!!.imageUrl)
             }
         }
 
