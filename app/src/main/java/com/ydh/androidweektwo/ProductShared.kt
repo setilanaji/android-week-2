@@ -38,7 +38,7 @@ class ProductShared(private val context: Context){
         return saved
     }
 
-    fun isFav(id: Int): Boolean{
+    fun isFav(id: Int?): Boolean{
         val fav: MutableList<String> = this.favoriteArray.toMutableList()
         var saved = false
         fav.forEach { c ->

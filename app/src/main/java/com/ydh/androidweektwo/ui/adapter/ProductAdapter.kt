@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
@@ -56,19 +57,22 @@ class ProductAdapter(
         var itemListener: ProductAdapter.PostItemListener
     ) : RecyclerView.ViewHolder(itemProductBinding.root), View.OnClickListener {
         private var binding: ItemProductBinding? = null
-//        private val prefs: ProductShared by lazy {
-//            ProductShared(App.instance)
-//        }
+        private val prefs: ProductShared by lazy {
+            ProductShared(App.instance)
+        }
         init {
             this.binding = itemProductBinding
             binding?.buttonAdd?.setOnClickListener (this)
-//            binding?.itemProductItemFav?.isChecked = false
+
+            val checkbox = prefs.isFav(binding?.product?.id)
+            println(" test $checkbox")
+            binding?.product?.fav = checkbox
+            binding?.itemProductItemFav?.isChecked = checkbox
             binding?.itemProductItemFav?.setOnClickListener {
                 val product = binding?.product
                 var checked = false
                 if (binding!!.itemProductItemFav.isChecked){
                     checked = true
-                    println("check TRUE")
                 }
                 if (product != null) {
                     this.itemListener.onFavClick(product, checked)
@@ -87,6 +91,11 @@ class ProductAdapter(
                     .into(view)
             }
 
+            @JvmStatic
+            @BindingAdapter("favStatus")
+            fun setChecked(view: CheckBox, favStatus: Boolean) {
+                view.isChecked = favStatus
+            }
 
         }
 
