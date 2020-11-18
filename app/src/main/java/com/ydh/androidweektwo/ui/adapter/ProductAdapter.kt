@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -96,6 +97,13 @@ class ProductAdapter(
             fun setChecked(view: CheckBox, favStatus: Boolean) {
                 view.isChecked = favStatus
             }
+
+            @JvmStatic
+            @BindingAdapter("productPrice")
+            fun productPrice(view: TextView, price: Double){
+                view.text = price.toString()
+            }
+
 
         }
 
