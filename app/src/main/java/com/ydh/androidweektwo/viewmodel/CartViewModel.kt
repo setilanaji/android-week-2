@@ -53,6 +53,7 @@ class CartViewModel(context: Context?) : ViewModel() {
 
     fun deleteCartItem(item: ProductModel) {
         prefs.deleteItem(item.id)
+        prefs.countCart -= 1
         mutableList.remove(item)
         _data.value = mutableList
     }

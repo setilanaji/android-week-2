@@ -12,12 +12,17 @@ class ProductShared(private val context: Context){
 
         const val FAVORITE_KEY = "FAVORITE_KEY"
         const val CHECKOUT_KEY = "CHECKOUT_KEY"
+        const val COUNT_KEY = "COUNT_KEY"
 
     }
 
     private val pref: SharedPreferences by lazy{
         context.getSharedPreferences(SHARED_NAME, Context.MODE_PRIVATE)
     }
+
+    var countCart: Int
+        get() = pref.getInt(COUNT_KEY, 0)
+        set(value) = pref.edit{putInt(COUNT_KEY, value)}
 
     var favoriteArray: Array<String>
         get() = pref.getStringSet(FAVORITE_KEY, emptySet())?.toTypedArray()?: emptyArray()

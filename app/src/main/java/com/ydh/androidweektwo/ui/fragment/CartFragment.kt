@@ -32,13 +32,19 @@ class CartFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate<FragmentCartBinding>(inflater,R.layout.fragment_cart, container, false)
         setViewModel()
+        setObserver()
         setData()
 
         return binding.root
     }
 
+
     private fun setData(){
         cartViewModel.setAllCartItem()
+
+    }
+
+    private fun setObserver(){
     }
 
     private fun setViewModel(){

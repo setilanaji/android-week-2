@@ -2,6 +2,7 @@ package com.ydh.androidweektwo.viewmodel
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +26,13 @@ class ProductViewModel(private val context: Context): ViewModel() {
     val data : LiveData<List<ProductModel>>
         get() = _data
 
+    private val _count: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>(0)
+    }
+
+    val count : LiveData<Int>
+        get() = _count
+
     fun setAllProducts(){
         ApiClient.apiService.getProducts().enqueue(object :
             retrofit2.Callback<List<ProductModel>> {
@@ -45,6 +53,11 @@ class ProductViewModel(private val context: Context): ViewModel() {
         })
     }
 
+    fun setCount(): Int{
+        _count.value = prefs.countCart
+        return prefs.countCart
+    }
+
     fun setFav(productModel: ProductModel, checked: Boolean){
         if (checked){
             val fav: MutableList<String> = prefs.favoriteArray.toMutableList()
@@ -58,6 +71,10 @@ class ProductViewModel(private val context: Context): ViewModel() {
             Toast.makeText(context, "${productModel.title} is deleted from fav", Toast.LENGTH_LONG).show()
 
         }
+    }
+    fun updateBadgeCount(){
+        _count.postValue(if (_count.value == null) 1 else _count.value!!.plus(1))
+        prefs.countCart += 1
     }
 
 

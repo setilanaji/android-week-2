@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -29,11 +30,10 @@ class ProductListFragment : Fragment() {
 
     private lateinit var productViewModel: ProductViewModel
     private lateinit var binding : FragmentProductListBinding
-    private lateinit var redCircle: FrameLayout
-    private lateinit var countText: TextView
-    private lateinit var myMenu: Menu
-    lateinit var item: MenuItem
-    var cartCount = 0
+    private  var redCircle: FrameLayout? = null
+    private  var countText: TextView? = null
+    private  var myMenu: Menu? = null
+    private lateinit var item: MenuItem
 
     val prefs: ProductShared by lazy {
         ProductShared(App.instance)
@@ -47,17 +47,23 @@ class ProductListFragment : Fragment() {
            inflater,
            R.layout.fragment_product_list, container, false
        )
+        setHasOptionsMenu(true)
 
         setViewModel()
         setData()
+        setObserver()
 
-        setHasOptionsMenu(true)
 
         return binding.root
     }
 
+
     private fun setData(){
         productViewModel.setAllProducts()
+    }
+
+    private fun setObserver(){
+        productViewModel.count.observe(viewLifecycleOwner, countObserver )
     }
 
     private fun setViewModel(){
@@ -81,8 +87,7 @@ class ProductListFragment : Fragment() {
                                 "${productModel.title} is added to cart",
                                 Toast.LENGTH_LONG
                             ).show()
-                            cartCount += 1
-                            updateBadgeCount()
+                            productViewModel.updateBadgeCount()
                         } else {
                             Toast.makeText(
                                 context,
@@ -124,32 +129,25 @@ class ProductListFragment : Fragment() {
         return NavigationUI.onNavDestinationSelected(
             item,
             requireView().findNavController()
-        )
-                || super.onOptionsItemSelected(item)
+        ) || super.onOptionsItemSelected(item)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         this.myMenu = menu
-        item = myMenu.findItem(R.id.cartFragment)
+        item = myMenu!!.findItem(R.id.cartFragment)
         val root = item.actionView as? FrameLayout
         if (root != null) {
             redCircle = root.findViewById(R.id.view_alert_red_circle) as FrameLayout
         }
         if (root != null) {
             countText = root.findViewById(R.id.view_alert_count_textview) as TextView
+            productViewModel.setCount()
+
         }
         root?.setOnClickListener { onOptionsItemSelected(item) }
-        return super.onPrepareOptionsMenu(menu)
+        super.onPrepareOptionsMenu(menu)
     }
 
-    fun updateBadgeCount(){
-        if (cartCount > 0 ){
-            countText.text = cartCount.toString()
-        }else {
-            countText.text = ""
-        }
-        redCircle.visibility = if (cartCount> 0) View.VISIBLE else View.GONE
-    }
 
     fun imgOnClick(uri:String){
         val builder = Dialog(requireContext())
@@ -174,6 +172,14 @@ class ProductListFragment : Fragment() {
         builder.show()
 
     }
+
+    private val countObserver = Observer<Int> {
+
+        countText?.text = if (it> 0) it.toString() else ""
+        redCircle?.visibility = if (it> 0) View.VISIBLE else View.GONE
+
+    }
+
 
 
 
