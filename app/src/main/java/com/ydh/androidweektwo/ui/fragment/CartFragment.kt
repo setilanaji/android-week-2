@@ -55,6 +55,9 @@ class CartFragment : Fragment() {
                 layoutManager = LinearLayoutManager(context)
                 adapter = myAdapter
             }
+            binding.tvCartTotal.apply {
+               this.text = cartViewModel.getTotal().toString()
+            }
         })
 
     }

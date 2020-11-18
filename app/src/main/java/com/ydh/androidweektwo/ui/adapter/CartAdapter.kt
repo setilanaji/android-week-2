@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -66,6 +67,11 @@ class CartAdapter(
                     .load(productImage)
                     .circleCrop()
                     .into(view)
+            }
+            @JvmStatic
+            @BindingAdapter("productPrice")
+            fun productPrice(view: TextView, price: Double){
+                view.text = price.toString()
             }
 
 

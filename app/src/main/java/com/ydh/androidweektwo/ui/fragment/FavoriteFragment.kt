@@ -1,13 +1,20 @@
 package com.ydh.androidweektwo.ui.fragment
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.ydh.androidweektwo.R
 import com.ydh.androidweektwo.databinding.FragmentFavoriteBinding
 import com.ydh.androidweektwo.model.ProductModel
@@ -52,12 +59,39 @@ class FavoriteFragment : Fragment() {
                 override fun onFavClick(productModel: ProductModel, checked: Boolean) {
                     favViewModel.setFav(productModel, checked)
                 }
+
+                override fun onImgClick(uri: String) {
+                    imgOnClick(uri)
+                }
             })
             binding.rvFavoriteMain.run {
                 layoutManager = LinearLayoutManager(context)
                 adapter = myAdapter
             }
         })
+
+    }
+    fun imgOnClick(uri:String){
+        val builder = Dialog(requireContext())
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        builder.window?.setBackgroundDrawable(
+            ColorDrawable(Color.TRANSPARENT)
+        )
+        builder.setOnCancelListener {
+            it.dismiss()
+        }
+        val imageView = ImageView(requireContext())
+        Glide.with(requireContext())
+            .load(uri)
+            .into(imageView)
+
+        builder.addContentView(
+            imageView, RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        )
+        builder.show()
 
     }
 

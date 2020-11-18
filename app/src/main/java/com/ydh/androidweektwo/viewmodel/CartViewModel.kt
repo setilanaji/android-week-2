@@ -57,5 +57,13 @@ class CartViewModel(context: Context?) : ViewModel() {
         _data.value = mutableList
     }
 
+    fun getTotal(): Double{
+        return mutableList.sumByDouble {
+            it.price
+        }
+    }
+
+
+
 
 }

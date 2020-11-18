@@ -21,7 +21,7 @@
                 android:id="@+id/rv_product_cart"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/button_cart_chekcout"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -34,6 +34,37 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/button_cart_chekcout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|end"
+                    android:text="Total :"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_cart_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right|end"
+                    android:text="0"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

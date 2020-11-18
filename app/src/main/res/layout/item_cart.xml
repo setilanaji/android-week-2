@@ -73,6 +73,15 @@
             app:layout_constraintStart_toStartOf="@+id/tv_item_cart_name"
             app:layout_constraintTop_toBottomOf="@+id/tv_item_cart_name" />
 
+        <TextView
+            android:id="@+id/tv_item_cart_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:productPrice="@{product.price}"
+            app:layout_constraintEnd_toEndOf="@+id/tv_item_cart_category"
+            app:layout_constraintStart_toStartOf="@+id/tv_item_cart_category"
+            app:layout_constraintTop_toBottomOf="@+id/tv_item_cart_category" />
+
         <CheckBox
 
             android:id="@+id/item_product_item_fav"
